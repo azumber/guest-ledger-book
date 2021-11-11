@@ -1,9 +1,18 @@
 <template>
-  <div id="container" class="max-w-md p-9 m-6 rounded-3xl shadow-2xl">
-    <h1 style="text-align: center;">Guest Ledger Book</h1>
-    <input onload="focus" id="email" class="min-w-full p-2 m-5" type="text" placeholder="please enter your email.."><br>
-    <input id="message" class="min-w-full p-2 m-5" type="text" placeholder="please enter your message.."><br>
-    <button id="submit" class="max-w-none text-black py-2 px-4 m-3 rounded shadow-2xl" style="margin: 10px;">SUBMIT</button>
+  <div>
+    <form id="container" class="max-w-md p-9 m-6 rounded-3xl shadow-2xl" data-test="form" @submit.prevent="addCard">
+        <h1 style="text-align: center;">Guest Ledger Book</h1>
+        <input v-model="inpEmail" data-test="mail" id="email" class="min-w-full p-2 m-5" type="text" placeholder="please enter your email.." onload="focus" ><br>
+        <input v-model="inpMsg" data-test="msg" id="message" class="min-w-full p-2 m-5" type="text" placeholder="please enter your message.."><br>
+        <button id="submit" class="max-w-none text-black py-2 px-4 m-3 rounded shadow-2xl" style="margin: 10px;">SUBMIT</button>
+    </form>
+    <div class="max-w-md p-9 m-6 rounded-3xl shadow-2xl">
+        <h1 style="text-align: center;">List</h1>
+        <div v-for="item of list" :key="item" data-test="item">
+            <p>{{ item.email }}</p>
+            <p>{{ item.message }}</p>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -11,11 +20,23 @@
 export default {
     name: 'Book',
     data(){
-        return{         
+        return{ 
+            inpEmail: "",
+            inpMsg: "",   
+            card:{
+                email: "",
+                message: ""
+            },
+            list: []    
         }
     },
     methods:{
-        focus(){ document.getElementById('email').focus();}
+        focus(){ document.getElementById('email').focus();},
+        addCard(){
+            this.card = { email: this.inpEmail, message: this.inpMsg }
+            this.list.push(this.card)
+            this.card = {}
+        }
     }
 }
 </script>
