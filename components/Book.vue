@@ -8,9 +8,9 @@
     </form>
     <div class="max-w-md p-9 m-6 rounded-3xl shadow-2xl">
         <h1 style="text-align: center;">List</h1>
-        <div v-for="item of list" :key="item" data-test="item">
-            <p>{{ item.email }}</p>
-            <p>{{ item.message }}</p>
+        <div v-for="item of list" :key="item" data-test="item" class="max-w-md p-9 m-6 rounded-3xl shadow-2xl">
+            <p data-test="shownMail" @click="showMsg"><strong>email: </strong>{{ item.email }}</p>
+            <p v-if="control" data-test="shownMessage"><strong>message: </strong>{{ item.message }}</p>
         </div>
     </div>
   </div>
@@ -21,6 +21,7 @@ export default {
     name: 'Book',
     data(){
         return{ 
+            control: false,
             inpEmail: "",
             inpMsg: "",   
             card:{
@@ -36,7 +37,8 @@ export default {
             this.card = { email: this.inpEmail, message: this.inpMsg }
             this.list.push(this.card)
             this.card = {}
-        }
+        },
+        showMsg(){ this.control = !this.control } 
     }
 }
 </script>
